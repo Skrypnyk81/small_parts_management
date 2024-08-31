@@ -1,4 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Hello, world!</h1>
+<div class="d-grid gap-2 col-6 mx-auto">
+    <h1>Menu</h1>
+    <a href="{{ url_for('get_upload') }}" class="btn btn-primary" role="button">Carico materiale</a>
+    <a href="{{ url_for('get_download') }}" class="btn btn-primary" role="button">Scarico materiale</a>
+  </div>
 {% endblock %}
