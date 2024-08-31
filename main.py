@@ -25,3 +25,10 @@ async def get_upload(request: Request,):
         "upload.html",
         {"request": request}
     )
+
+@app.get("/download/", response_class=HTMLResponse)
+async def get_download(request: Request,):
+    return templates.TemplateResponse(
+        "download.html",
+        {"request": request}
+    )
