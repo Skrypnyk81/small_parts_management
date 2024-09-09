@@ -1,8 +1,9 @@
 from sqlalchemy import MetaData, Table, Column, Integer, String, DateTime
+from sqlalchemy.sql import func
 
 metadata = MetaData()
 
-item = Table(
+item_table = Table(
     "item",
     metadata,
     Column("id", Integer, primary_key=True, autoincrement=True),
@@ -10,5 +11,6 @@ item = Table(
     Column("description", String(200), nullable=False),
     Column("quantity", Integer, nullable=False),
     Column("minimum_quantity", Integer, nullable=False),
-    Column("created_at", DateTime, nullable=False),
+    Column("created_at", DateTime(timezone=True), server_default=func.now()),
+    Column("updated_at", DateTime(timezone=True), server_default=func.now())
 )
