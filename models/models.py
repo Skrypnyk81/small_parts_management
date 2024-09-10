@@ -12,5 +12,5 @@ item_table = Table(
     Column("quantity", Integer, nullable=False),
     Column("minimum_quantity", Integer, nullable=False),
     Column("created_at", DateTime(timezone=True), server_default=func.now()),
-    Column("updated_at", DateTime(timezone=True), server_default=func.now())
+    Column("updated_at", DateTime(timezone=True), server_default=func.now(),  onupdate=func.now())
 )
