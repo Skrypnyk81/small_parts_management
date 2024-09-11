@@ -7,6 +7,7 @@ from models.database import get_async_session
 from item.schemas import ItemCreate
 from models.models import item_table
 from sqlalchemy import insert, select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 
@@ -41,8 +42,8 @@ async def get_download(request: Request,):
         {"request": request}
     )
 
-@app.get("/item/{item_name}")
-async def read_item(item_name: str, db: Session = Depends(get_async_session)):
+@app.get("/item", name="search_item")
+async def read_item(request: Request, item_name: str, db: AsyncSession = Depends(get_async_session)):
     query = select(item_table).where(item_table.c.name == item_name)
     result = await db.execute(query)
     item = result.first()
@@ -51,10 +52,13 @@ async def read_item(item_name: str, db: Session = Depends(get_async_session)):
         raise HTTPException(status_code=404, detail="Item not found")
     
     item_dict = dict(zip(item_table.c.keys(), item))
-    return {"item_id": item_dict}
+    return templates.TemplateResponse(
+        "item_detail.html",
+        {"request": request, "item": item_dict}
+    )
 
 @app.post("/item_add")
-async def add_item(item_data: ItemCreate, db: Session = Depends(get_async_session)):
+async def add_item(item_data: ItemCreate, db: AsyncSession = Depends(get_async_session)):
     new_item = insert(item_table).values(**item_data.model_dump())
     await db.execute(new_item)
     await db.commit()
@@ -63,3 +67,4 @@ async def add_item(item_data: ItemCreate, db: Session = Depends(get_async_sessio
     result = await db.execute(query)
     insered_item = result.scalar_one()
     return {"message": "Item added successfully", "item": insered_item}
+
