@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Carica la minuteria in modula</h1>
-<form action="">
+<form action="/item/" method="get" id="search_item">
     <div class="form-group">
-        <label for="barCode">Inserisci codice a bar</label>
+        <label for="barCode">Inserisci codice a barre</label>
         <input type="text" class="form-control" id="barCode" placeholder="Scansiona articolo">
-    </div>      
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Cerca</button>
 </form>
 {% endblock %}
