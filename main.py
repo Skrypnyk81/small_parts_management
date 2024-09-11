@@ -1,5 +1,5 @@
 from datetime import datetime
-from fastapi import FastAPI, UploadFile, Request, Depends
+from fastapi import FastAPI, UploadFile, Request, Depends, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
@@ -43,8 +43,15 @@ async def get_download(request: Request,):
 
 @app.get("/item/{item_name}")
 async def read_item(item_name: str, db: Session = Depends(get_async_session)):
-    item = db.query(item).filter(item.name == item_name).first()
-    return {"item_id": item}
+    query = select(item_table).where(item_table.c.name == item_name)
+    result = await db.execute(query)
+    item = result.first()
+
+    if item is None:
+        raise HTTPException(status_code=404, detail="Item not found")
+    
+    item_dict = dict(zip(item_table.c.keys(), item))
+    return {"item_id": item_dict}
 
 @app.post("/item_add")
 async def add_item(item_data: ItemCreate, db: Session = Depends(get_async_session)):
