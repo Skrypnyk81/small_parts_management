@@ -1,10 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Carica la minuteria in modula</h1>
-<form action="/item/" method="get" id="search_item">
+<form method="post" id="upload">
     <div class="form-group">
         <label for="barCode">Inserisci codice a barre</label>
-        <input type="text" class="form-control" id="barCode" placeholder="Scansiona articolo">
+        <input type="text" class="form-control" id="barCode" name="barCode" placeholder="Scansiona articolo">
+        {% if error %}
+        <small class="text-danger">{{ error }}</small>
+        {% endif %}
     </div>
     <br>
     <button type="submit" class="btn btn-primary">Cerca</button>
