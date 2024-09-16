@@ -4,7 +4,7 @@
 <form method="post" id="upload">
     <div class="form-group">
         <label for="barCode">Inserisci codice a barre</label>
-        <input type="text" class="form-control" id="barCode" name="barCode" placeholder="Scansiona articolo">
+        <input type="text" class="form-control" id="barCode" name="barCode" placeholder="Scansiona articolo" required>
         {% if error %}
         <small class="text-danger">{{ error }}</small>
         {% endif %}
