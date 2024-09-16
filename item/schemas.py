@@ -18,3 +18,7 @@ class Item(BaseModel):
 
     class Config:
         from_attributes = True
+
+class ItemAdd(BaseModel):
+    name: str
+    quantity: int
