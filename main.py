@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, Request, Depends, HTTPException, Form
+from fastapi import FastAPI, UploadFile, Request, Depends, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from models.database import get_async_session
