@@ -2,9 +2,9 @@ from fastapi import FastAPI, UploadFile, Request, Depends, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from models.database import get_async_session
-from item.schemas import ItemCreate
+from item.schemas import ItemCreate, ItemAdd
 from models.models import item_table
-from sqlalchemy import insert, select
+from sqlalchemy import insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Annotated
 
@@ -51,6 +51,35 @@ async def read_item(request: Request, barCode: Annotated[str, Form()], db: Async
     return templates.TemplateResponse(
         "item_detail.html",
         {"request": request, "item": item_dict}
+    )
+
+@app.post("/item_result", response_class=HTMLResponse)
+async def add_item(request: Request, item: Annotated[ItemAdd, Depends(ItemAdd.as_form)],):
+    return templates.TemplateResponse(
+        "item_to_db.html",
+        {"request": request, "item_add": item}
+    )
+
+@app.post("/item_add_to_db", response_class=HTMLResponse, name="item_add_to_db")
+async def add_item_to_db(request: Request, 
+                         item_add: Annotated[ItemAdd, Depends(ItemAdd.as_form)],
+                         db: AsyncSession = Depends(get_async_session)):
+    query = select(item_table).where(item_table.c.name == item_add.name)
+    result = await db.execute(query)
+    item = result.first()
+    new_quantity = item.quantity + item_add.quantity
+    update_query = update(item_table).where(item_table.c.name == item_add.name).values(quantity=new_quantity)
+
+    await db.execute(update_query)
+    await db.commit()
+
+    query = select(item_table).where(item_table.c.name == item_add.name)
+    result = await db.execute(query)
+    updated_item = result.first()
+
+    return templates.TemplateResponse(
+        "add_result.html",
+        {"request": request, "item": updated_item}
     )
 
 
