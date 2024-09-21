@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Repielogo del carico</h1>
+<h3>Sarà caricato articolo:<br>
+    {{ item_add.name }}<br>
+    {{ item_add.description }}<br>
+    quantità: {{ item_add.quantity }}</h3>
+
+<form action='/item_add_to_db' method="post" id="item_add_to_db">
+    <input type="hidden" name="name" value="{{ item_add.name }}">
+    <input type="hidden" name="description" value="{{ item_add.description }}">
+    <input type="hidden" name="quantity" value="{{ item_add.quantity }}">
+    <button type="submit" class="btn btn-primary mt-2">Carica</button>
+</form>
+
+<a href="{{ url_for('get_upload') }}" class="btn btn-primary mt-2">Indietro</a>
+
+{% endblock %}
