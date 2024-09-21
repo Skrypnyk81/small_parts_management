@@ -4,12 +4,17 @@
 <h1>Articolo da caricare</h1>
 <h3>Stai per caricare - {{ item.name }} - {{ item.description }}</h3>
 
-<form method="post">
-    <input type="hidden" name="item_name" value="{{ item.name }}">
-    <label for="inputQuantity" class="form-label">Quantità da caricare</label>
-    <input type="text" id="inputQuantity" class="form-control">
-    <button type="submit" class="btn btn-primary mt-2">Carica</button>
+<form action="/item_result" method="post" id="item_result">
+    <div class="form-group">
+        <input type="hidden" name="name" value="{{ item.name }}">
+        <input type="hidden" name="description" value="{{ item.description }}">
+
+        <label for="quantity" class="form-label">Quantità da caricare</label>
+        <input type="text" id="quantity" name="quantity" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Avanti</button>
 </form>
+
 
 <a href="{{ url_for('get_upload') }}" class="btn btn-primary mt-2">Torna alla Ricerca</a>
 
