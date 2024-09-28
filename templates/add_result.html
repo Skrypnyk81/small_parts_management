@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Articolo caricato</h1>
+<h3>{{item.name}} - {{item.description}} - nuova quantità {{item.quantity}}</h3>
+
+<a href="{{ url_for('get_upload') }}" class="btn btn-primary mt-2">Torna alla Ricerca</a>
+
+{% endblock %}

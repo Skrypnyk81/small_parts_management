@@ -1,20 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Dettagli Articolo</h1>
-<table class="table">
-    <tr>
-        <th>Codice a Barre</th>
-        <td>{{ item.bar_code }}</td>
-    </tr>
-    <tr>
-        <th>Nome</th>
-        <td>{{ item.name }}</td>
-    </tr>
-    <tr>
-        <th>Quantità</th>
-        <td>{{ item.quantity }}</td>
-    </tr>
-</table>
-<a href="{{ url_for('get_upload') }}" class="btn btn-primary">Torna alla Ricerca</a>
+
+<h1>Articolo da caricare</h1>
+<h3>Stai per caricare - {{ item.name }} - {{ item.description }}</h3>
+
+<form action="/item_result" method="post" id="item_result">
+    <div class="form-group">
+        <input type="hidden" name="name" value="{{ item.name }}">
+        <input type="hidden" name="description" value="{{ item.description }}">
+
+        <label for="quantity" class="form-label">Quantità da caricare</label>
+        <input type="text" id="quantity" name="quantity" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Avanti</button>
+</form>
+
+
+<a href="{{ url_for('get_upload') }}" class="btn btn-primary mt-2">Torna alla Ricerca</a>
 
 {% endblock %}

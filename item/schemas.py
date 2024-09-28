@@ -1,5 +1,9 @@
+from fastapi import Form
+from dataclasses import dataclass
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Annotated
+
 
 class ItemCreate(BaseModel):
     name: str
@@ -18,3 +22,17 @@ class Item(BaseModel):
 
     class Config:
         from_attributes = True
+
+class ItemAdd(BaseModel):
+    name: str
+    description: str
+    quantity: int
+
+    @classmethod
+    def as_form(
+        cls,
+        name: Annotated[str, Form()],
+        description: Annotated[str, Form()],
+        quantity: Annotated[int, Form()]
+    ):
+        return cls(name=name, description=description, quantity=quantity)
