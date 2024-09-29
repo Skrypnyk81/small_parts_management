@@ -1,5 +1,4 @@
 from fastapi import Form
-from dataclasses import dataclass
 from pydantic import BaseModel
 from datetime import datetime
 from typing import Annotated
@@ -7,9 +6,10 @@ from typing import Annotated
 
 class ItemCreate(BaseModel):
     name: str
-    description: str 
+    description: str
     quantity: int
     minimum_quantity: int
+
 
 class Item(BaseModel):
     id: int
@@ -22,6 +22,7 @@ class Item(BaseModel):
 
     class Config:
         from_attributes = True
+
 
 class ItemAdd(BaseModel):
     name: str
